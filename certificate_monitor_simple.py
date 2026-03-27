@@ -1,5 +1,7 @@
 import json
 from datetime import datetime, date
+import tkinter as tk
+from tkinter import filedialog, messagebox
 
 # Store certificates
 certificates = []
@@ -16,94 +18,56 @@ def get_status(expiry_date):
     else:
         return "SAFE"
 
-# Add certificate manually
-def add_certificate():
-    domain = input("Enter domain: ")
-    issue = input("Enter issue date (YYYY-MM-DD): ")
-    expiry = input("Enter expiry date (YYYY-MM-DD): ")
-
-    try:
-        datetime.strptime(issue, "%Y-%m-%d")
-        datetime.strptime(expiry, "%Y-%m-%d")
-    except:
-        print("Invalid date format!")
+# Load JSON (GUI)
+def load_json_gui():
+    file_path = filedialog.askopenfilename(filetypes=[("JSON files", "*.json")])
+    
+    if not file_path:
         return
 
-    certificates.append({
-        "domain": domain,
-        "issue_date": issue,
-        "expiry_date": expiry
-    })
-
-    print("Certificate added successfully!")
-
-# Load from JSON
-def load_json():
-    file = input("Enter JSON file name: ")
-
     try:
-        with open(file, "r") as f:
+        with open(file_path, "r") as f:
             data = json.load(f)
 
         certificates.clear()
         for cert in data:
             certificates.append(cert)
 
-        print("Certificates loaded successfully!")
+        messagebox.showinfo("Success", "Certificates loaded successfully!")
 
     except:
-        print("Error loading file!")
+        messagebox.showerror("Error", "Failed to load file!")
 
-# View certificates
-def view_certificates():
+# Show status (GUI)
+def show_status_gui():
     if not certificates:
-        print("No certificates found!")
+        messagebox.showwarning("Warning", "No certificates loaded!")
         return
 
-    for cert in certificates:
-        print("\nDomain:", cert["domain"])
-        print("Issue Date:", cert["issue_date"])
-        print("Expiry Date:", cert["expiry_date"])
-
-# Check status
-def check_certificates():
-    if not certificates:
-        print("No certificates found!")
-        return
+    result = ""
 
     for cert in certificates:
         expiry_date = datetime.strptime(cert["expiry_date"], "%Y-%m-%d").date()
         status = get_status(expiry_date)
 
-        print("\nDomain:", cert["domain"])
-        print("Expiry Date:", cert["expiry_date"])
-        print("Status:", status)
+        result += f"{cert['domain']} → {status}\n"
 
-# Menu
-def main():
-    while True:
-        print("\n--- Certificate Monitor ---")
-        print("1. Add Certificate")
-        print("2. Load from JSON")
-        print("3. View Certificates")
-        print("4. Check Status")
-        print("0. Exit")
+    messagebox.showinfo("Certificate Status", result)
 
-        choice = input("Enter choice: ")
+# GUI Window
+def run_gui():
+    root = tk.Tk()
+    root.title("Certificate Monitor")
+    root.geometry("400x200")
 
-        if choice == "1":
-            add_certificate()
-        elif choice == "2":
-            load_json()
-        elif choice == "3":
-            view_certificates()
-        elif choice == "4":
-            check_certificates()
-        elif choice == "0":
-            break
-        else:
-            print("Invalid choice!")
+    tk.Label(root, text="Digital Certificate Monitor", font=("Arial", 14)).pack(pady=10)
 
-# Run program
+    tk.Button(root, text="Load JSON File", command=load_json_gui, width=20).pack(pady=5)
+    tk.Button(root, text="Check Certificate Status", command=show_status_gui, width=25).pack(pady=5)
+    tk.Button(root, text="Exit", command=root.destroy, width=10).pack(pady=10)
+
+    root.mainloop()
+
+# Run GUI directly
 if __name__ == "__main__":
-    main()
+    run_gui()
