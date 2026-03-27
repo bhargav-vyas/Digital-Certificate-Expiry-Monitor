@@ -10,3 +10,55 @@
 //     "expiry_date": "2024-01-01"
 //   }
 // ]
+[
+  {
+    "domain": "google.com",
+    "issue_date": "2024-01-01",
+    "expiry_date": "2026-11-01"
+  },
+  {
+    "domain": "expired.com",
+    "issue_date": "2023-01-01",
+    "expiry_date": "2024-01-01"
+  },
+  {
+    "domain": "amazon.com",
+    "issue_date": "2024-06-01",
+    "expiry_date": "2026-05-30"
+  },
+  {
+    "domain": "github.com",
+    "issue_date": "2023-12-01",
+    "expiry_date": "2025-04-10"
+  },
+  {
+    "domain": "test-expiring.com",
+    "issue_date": "2024-01-01",
+    "expiry_date": "2026-04-15"
+  },
+  {
+    "domain": "oldsite.org",
+    "issue_date": "2022-01-01",
+    "expiry_date": "2023-05-01"
+  },
+  {
+    "domain": "myserver.local",
+    "issue_date": "2025-01-01",
+    "expiry_date": "2027-01-01"
+  },
+  {
+    "domain": "bank-secure.com",
+    "issue_date": "2024-08-01",
+    "expiry_date": "2025-03-30"
+  },
+  {
+    "domain": "college.edu",
+    "issue_date": "2023-07-01",
+    "expiry_date": "2026-07-01"
+  },
+  {
+    "domain": "demo-site.net",
+    "issue_date": "2024-03-01",
+    "expiry_date": "2025-03-01"
+  }
+]
